@@ -2,8 +2,8 @@ package dbmysql
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/astaxie/beego"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var Db *sql.DB
@@ -17,7 +17,7 @@ func Connect() {
 	dbPassword := config.String("db_password")
 	dbIP := config.String("db_ip")
 	dbName := config.String("db_name")
-	fmt.Println(dbName, dbPassword, dbUser, dbIP, driver)
+	//fmt.Println(dbName, dbPassword, dbUser, dbIP, driver)
 
 	//连接数据库
 	connUrl := dbUser +":"+dbPassword+"@tcp("+dbIP+")/"+dbName+"?charset = utf8"
@@ -27,5 +27,5 @@ func Connect() {
 		panic("数据库打开失败，请重试") //程序进入恐慌状态，程序会终止执行
 	}
 	Db = db
-	fmt.Println(db)
+	//fmt.Println(db)
 }
