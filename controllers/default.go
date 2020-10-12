@@ -16,3 +16,4 @@ func (c *MainController) Get() {
 	fmt.Println("hello world")
 	c.TplName = "register.html"
 }
+
