@@ -11,6 +11,7 @@ type MainController struct {
 
 //展示默认得首页，注册
 func (c *MainController) Get() {
+
 	//c.Data["Website"] = "beego.me"
 	//c.Data["Email"] = "astaxie@gmail.com"
 	fmt.Println("hello world")

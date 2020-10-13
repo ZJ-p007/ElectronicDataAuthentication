@@ -1,14 +1,9 @@
 package dbmysql
 
 import (
-	"DataCertPlatform/models"
-	"crypto/md5"
 	"database/sql"
-	"encoding/hex"
-	"fmt"
 	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
-	"log"
 )
 
 var Db *sql.DB
@@ -35,46 +30,50 @@ func Connect() {
 	//fmt.Println(db)
 
 	//查询数据库中的数据
-	rows, errq := db.Query("select id,phone,password from user")
-	defer rows.Close()
-	if errq != nil {
-		log.Fatal(errq.Error())
-		return
+	/**rows, errq := db.Query("select id,phone,password from user")
+		defer rows.Close()
+		if errq != nil {
+			log.Fatal(errq.Error())
+			return
+		}
+		for rows.Next() {
+			var id int
+			var phone string
+			var password string
+			err = rows.Scan(&id, &phone, &password)
+			fmt.Println(id, password, phone)
+		}
 	}
-	for rows.Next() {
-		var id int
-		var phone string
-		var password string
-		err = rows.Scan(&id, &phone, &password)
-		fmt.Println(id, password, phone)
+	//检验函数
+	func checkErr(err error) {
+		if err != nil {
+			log.Println(err)
+		}
 	}
-}
 
-//检验函数
-func checkErr(err error) {
-	if err != nil {
-		log.Println(err)
-	}
-}
+	*/
 
-//将用户信息保存到数据库中的函数
-func AddUser(u models.User) (int64, error) {
-	//将密码进行Hash计算，得到密码hash
-	md5Hash := md5.New()
-	md5Hash.Write([]byte(u.Password))
-	passwordBytes := md5Hash.Sum(nil)
-	u.Password = hex.EncodeToString(passwordBytes)
+	//将用户信息保存到数据库中的函数
+	/*func AddUser(u models.User) (int64, error) {
+	  	//将密码进行Hash计算，得到密码hash
+	  	md5Hash := md5.New()
+	  	md5Hash.Write([]byte(u.Password))
+	  	passwordBytes := md5Hash.Sum(nil)
+	  	u.Password = hex.EncodeToString(passwordBytes)
 
-	//execute,
-	result, err := Db.Exec("insert into user(phone,password)"+
-		" values(?,?) ", u.Phone, u.Password)
-	if err != nil {
-		fmt.Println(err.Error())
-		return -1, err
-	}
-	row, err := result.RowsAffected()
-	if err != nil {
-		return -1, err
-	}
-	return row, nil
+	  	//execute,
+	  	result, err := Db.Exec("insert into user(phone,password)"+
+	  		" values(?,?) ", u.Phone, u.Password)
+	  	if err != nil {
+	  		fmt.Println(err.Error())
+	  		return -1, err
+	  	}
+	  	row, err := result.RowsAffected()
+	  	if err != nil {
+	  		return -1, err
+	  	}
+	  	return row, nil
+	  }
+
+	*/
 }
