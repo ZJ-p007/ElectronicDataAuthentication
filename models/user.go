@@ -22,8 +22,8 @@ func (u User) AddUser()(int64,error){
 	//把脱敏的密码的md5值重新赋值为密码
 	u.Password = hex.EncodeToString(pwdBytes)
 
-	rs,err:=dbmysql.Db.Exec("insert into user(phone,password) values(?,?)",
-		u.Phone,u.Password)
+	var rs, err = dbmysql.Db.Exec("insert into user(phone,password) values(?,?)",
+		u.Phone, u.Password)
 	if err !=nil{//保存数据遇到错误
 		return -1,err
 	}
@@ -37,7 +37,7 @@ func (u User) AddUser()(int64,error){
 }
 
 //查询用户信息
-func (u User) QuerUser() (*User,error){
+func (u User) QueryUser() (*User,error){
 	HashMd5 := md5.New()
 	HashMd5.Write([]byte(u.Password))
 	pwdBytes := HashMd5.Sum(nil)
@@ -53,4 +53,14 @@ func (u User) QuerUser() (*User,error){
 	  return nil,err
   }
    return &u,nil
+}
+
+func (u User) QueryUserIdByPhone() (*User,error){
+	row :=dbmysql.Db.QueryRow("select id from user where phone = ?",u.Phone)
+	var user User
+	err := row.Scan(&user.Id)
+	if err != nil{
+		return nil,err
+	}
+	return &user,nil
 }

@@ -21,5 +21,9 @@ func init() {
     //登录界面点击注册账号的跳转
     beego.Router("/register.html",&controllers.SkipControllers{})
 
+    beego.Router("/upload",&controllers.UploadFileController{})
+
+
+
 
 }

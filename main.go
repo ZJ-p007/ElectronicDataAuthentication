@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	//1.连接数据库
 	dbmysql.Connect()
 
@@ -15,6 +14,7 @@ func main() {
 	beego.SetStaticPath("/js", "./static/js")
 	beego.SetStaticPath("/css", "./static/css")
 	beego.SetStaticPath("/img", "./static/img")
+
 	beego.Run()
 
 }

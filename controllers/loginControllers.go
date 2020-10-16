@@ -26,7 +26,7 @@ func (l *LoginControllre) Post() {
 		return
 	}
     //2.根据解析到的数据，执行数据库查询操作
-    u,err:=user.QuerUser()
+    u,err:=user.QueryUser()
 
 	//3.判断数据库查询结果
 	if err !=nil{
@@ -36,7 +36,7 @@ func (l *LoginControllre) Post() {
 		return
 	}
 	//4.根据查询结果返回客户端相应的信息或者页面跳转
-	l.Data["phone"] = u.Phone//动态数据设置
+	l.Data["Phone"] = u.Phone//动态数据设置
     l.TplName = "home.html"
 
 }
