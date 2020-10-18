@@ -2,13 +2,13 @@ package controllers
 
 import (
 	"DataCertPlatform/models"
-	"crypto/md5"
-	"crypto/sha256"
-	"encoding/hex"
+	"DataCertPlatform/utils"
+	//"crypto/md5"
+	//"encoding/hex"
 	"fmt"
 	"github.com/astaxie/beego"
-	"io"
-	"io/ioutil"
+	//"golang.org/x/tools/go/analysis/passes/cgocall/testdata/src/c"
+	//"io/ioutil"
 	"os"
 	"strings"
 	"time"
@@ -39,60 +39,78 @@ func (u *UploadFileController) Post() {
 
 	defer file.Close()//延迟执行invalid(无效的) memorey(无效的) or nil pointer dereference:空指针错误
 
-	//使用io包提供的方法保存文件
+	//调用工具函数保存文件
 	saveFilePath := "static/upload" + header.Filename
-	saveFile,err :=os.OpenFile(saveFilePath,os.O_CREATE | os.O_RDWR,777)
-	if err!=nil{
-		u.Ctx.WriteString("抱歉，电子数据认证失败，请重试！")
-		return
-	}
-	//saveFile.Write()
-	_,err =io.Copy(saveFile,file)
-    if err != nil{
-    	u.Ctx.WriteString("抱歉，电子数据认证失败，请重新尝试！")
+	_,err = utils.SavaFile(saveFilePath,file)
+	if err != nil{
+		u.Ctx.WriteString("抱歉，文件数据认证失败，请重试！")
 		return
 	}
 
+	/**saveFile,err :=os.OpenFile(saveFilePath,os.O_CREATE | os.O_RDWR,777)
+		if err!=nil{
+			u.Ctx.WriteString("抱歉，电子数据认证失败，请重试！")
+			return
+		}
+		//saveFile.Write()
+		_,err =io.Copy(saveFile,file)
+	    if err != nil{
+	    	u.Ctx.WriteString("抱歉，电子数据认证失败，请重新尝试！")
+			return
+		}
+
+	*/
+
 	//2.计算文件的SHA256值
-	hash256:=sha256.New()
+	fileHash,err :=utils.SHA256HashReader(file)
+	fmt.Println(err.Error())
+	fmt.Println(fileHash)
+	/**hash256:=sha256.New()
 	fileBytes,_ :=ioutil.ReadAll(file)
 	hash256.Write(fileBytes)
 	hashBytes:=hash256.Sum(nil)
 	fmt.Println(hex.EncodeToString(hashBytes))
-
+	*/
 	//先查询用户id
-    user1,err := models.User{Phone:phone}.QueryUserIdByPhone()
-     if err != nil{
-     	u.Ctx.WriteString("抱歉，电子数据认证失败，请稍后再试！")
-		 return
-	 }
+	user1,err := models.User{Phone:phone}.QueryUserIdByPhone()
+	if err != nil{
+		u.Ctx.WriteString("抱歉，电子数据认证失败，请稍后再试！")
+		return
+	}
 
 
 	//把上传的文件作为记录保存到数据库中
 	//计算md5值
-	md5Hash := md5.New()
-	fileMd5Bytes,err :=ioutil.ReadAll(saveFile)
+	/**md5Hash := md5.New()
+	fileMd5Bytes,err :=ioutil.ReadAll(file)
 	md5Hash.Write(fileMd5Bytes)
-	bytes := md5Hash.Sum(nil)
-    record := models.UploadRecord{
+	*/
+	md5HashString,err :=utils.MD5HashReader(file)
+	if err !=nil{
+		u.Ctx.WriteString("抱歉，电子数据认证失败")
+	}
+	//bytes := md5Hash.Sum(nil)
+
+	record := models.UploadRecord{
 		UserId:    user1.Id,
 		FileName:  header.Filename,
 		FileSize:  header.Size,
-		FileCert:  hex.EncodeToString(bytes),
+		FileCert:  md5HashString,
 		FileTitle: title,
 		CertTime:  time.Now().Unix(),
 	}
 	//保存到数据库中
-   _ ,err =record.SaveRecord()
-    if err != nil{
-    	u.Ctx.WriteString("抱歉，电子数据认证保存失败，请重试！")
-    	fmt.Println(err.Error())
+	_ ,err =record.SaveRecord()
+	if err != nil{
+		u.Ctx.WriteString("抱歉，电子数据认证保存失败，请重试！")
+		fmt.Println(err.Error())
 		return
-    }
+	}
 
-    //上传
+	//上传
 	records, err := models.QueryRecordsByUserId(user1.Id)
-    if err != nil{
+	if err != nil{
+		fmt.Println("获取数据列表",err.Error())
 		u.Ctx.WriteString("抱歉, 获取电子数据列表失败, 请重新尝试!")
 		fmt.Println(err.Error())
 		return
@@ -159,7 +177,7 @@ func (u *UploadFileController) Post1(){
 	①：a文件所有者对文件的操作权限，读4 写2 执行1
 	②：b文件所有者所在组的用户操作权限，读4 写2 执行1
 	③:其他用户的操作权限，读4 写2 执行1
-	 */
+	*/
 	savaDir := "static/upload"
 	//打开文件①
 	_,err =os.Open(savaDir)
@@ -179,11 +197,11 @@ func (u *UploadFileController) Post1(){
 	//fromFile:文件
 	//toFile:要保存的文件路径
 	err =u.SaveToFile("yuhongwei",savaName)
-   if err != nil{
-   	fmt.Println(err.Error())
-   	u.Ctx.WriteString("抱歉，文件认证失败，请重试")
-	   return
-   }
+	if err != nil{
+		fmt.Println(err.Error())
+		u.Ctx.WriteString("抱歉，文件认证失败，请重试")
+		return
+	}
 	fmt.Println("上传的文件:",file)
 	u.Ctx.WriteString("已获取到上传文件。")
 }

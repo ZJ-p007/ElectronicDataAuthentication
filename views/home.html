@@ -202,7 +202,7 @@
                                 <div class="attestations-profile main-container">
                                     <div class="attestations-profile-content upload-content">
                                         <section class="file-content"><!-- react-text: 679 --><!-- /react-text -->
-                                            <form method="post" enctype="multipart/form-data" action="/upload">
+                                            <form method="post" enctype="multipart/form-data" action="/home">
                                                 <div class="files-container">
                                                     <div class="files-box">
                                                         <div class="tag"><p><span class="musts">*</span><span>文件标签</span>
@@ -249,14 +249,14 @@
                                                             <div class="upload-icon"><i
                                                                         class="iconfont font-upload"></i>
                                                                 <p class="click-upload">点击上传</p><input type="file"
-                                                                                                       name="yuhongwei"
+                                                                                                       name="file"
                                                                                                        title=" "
                                                                                                        multiple=""
                                                                                                        id="uploadOne">
                                                             </div>
                                                         </div>
                                                         <!--用户的phone信息-->
-                                                        <input type="text" name = "phone" value="{{.Phone}}" hidden = "hidden"/>
+                                                        <input type="text" name="phone" value="{{.Phone}}" hidden="hidden">
                                                         <input class="blueButton" type="submit" value="立即存证"/>
 
                                                     </div>
@@ -277,7 +277,7 @@
                 </div>
                 <footer class="user-center-footer"><p
                             style="display: flex; align-items: center; justify-content: center;"><!-- react-text: 721 -->
-                        Copyright&nbsp;©&nbsp;<!-- /react-text --><!-- react-text: 722 -->江西南昌江西软件职业技术大学<!-- /react-text -->
+                        Copyright&nbsp;©&nbsp;<!-- /react-text --><!-- react-text: 722 -->南昌江西软件大学<!-- /react-text -->
                         <!-- react-text: 723 -->&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;<!-- /react-text -->
                         <!-- react-text: 724 -->赣ICP备0000001号-1<!-- /react-text --><!-- react-text: 725 -->&nbsp;&nbsp;&nbsp;&nbsp;
                         <!-- /react-text --><a
@@ -315,9 +315,64 @@
     <ins class="nb-nodeboard-base nb-nodeboard-position-base nb-nodeboard-left-bottom nb-hide" id="nb_nodeboard">
         <ins class="nb-nodeboard-contain-base nb-nodeboard-contain">
             <ins class="nb-nodeboard-top nb-nodeboard-top-0" style="background-color: transparent;">
+                <ins class="nb-head-title">请您留言</ins>
                 <ins class="nb-nodeboard-close" id="nb_nodeboard_close" data-type="min"></ins>
             </ins>
-
+            <form id="nb_nodeboard_form" autocomplete="off" class="nb-board-form"
+                  action="https://p.qiao.baidu.com/cps4//bookmanage/saveBook.action?userId=26390501" method="post"
+                  accept-charset="utf-8">
+                <ins id="nb_nodeboard_set" class="nb-nodeboard-set">
+                    <ins class="nb-nodeboard-content"><textarea id="nb-nodeboard-set-content-js" name="content"
+                                                                data-ph="请在此输入留言内容，我们会尽快与您联系。（必填）"
+                                                                placeholder="请在此输入留言内容，我们会尽快与您联系。（必填）"
+                                                                class="nb-nodeboard-set-content nb-nodeboard-param"></textarea>
+                    </ins>
+                    <ins class="nb-nodeboard-name" style="z-index:4;">
+                        <ins class="nb-nodeboard-icon nodeName"></ins>
+                        <input id="nb_nodeboard_set_name" data-write="1" name="visitorName" maxlength="30"
+                               class="nb-nodeboard-input nb-nodeboard-param" type="text" data-ph="姓名（必填）"
+                               placeholder="姓名（必填）"></ins>
+                    <ins class="nb-nodeboard-name" id="nb_nodeboard_phone" style="z-index:3;">
+                        <ins class="nb-nodeboard-icon nodePhone"></ins>
+                        <input id="nb_nodeboard_set_phone" name="visitorPhone" maxlength="30"
+                               class="nb-nodeboard-input nb-nodeboard-param" data-write="1" type="text" data-ph="电话（必填）"
+                               placeholder="电话（必填）"></ins>
+                </ins>
+            </form>
+            <ins class="nb-nodeboard-success" id="nb_nodeboard_success">
+                <ins class="nb-success-box">
+                    <ins class="nb-success-icon"></ins>
+                    <ins class="nb-success-title" id="nb_node_messagetitle">感谢留言</ins>
+                    <ins class="nb-success-content" id="nb_node_messagecontent">我们会尽快与您联系</ins>
+                    <ins id="nb_nodeboard_return" needverifycode="0" class="nb-sucess-close">关闭</ins>
+                </ins>
+            </ins>
+            <ins class="nb-nodeboard-send" id="nb_node_contain">
+                <ins id="nb_nodeboard_send" needverifycode="0" class="nb-nodeboard-send-btn nb-nodeboard-send-btn-0">
+                    发送
+                </ins>
+            </ins>
+        </ins>
+    </ins><!-- end --><!-- target: iconIcon -->
+    <ins class="nb-icon-wrap nb-icon-base icon-right-bottom nb-icon-skin-0 nb-icon-icon" id="nb_icon_wrap"
+         style=";width:60px;">
+        <ins class="nb-icon-inner-wrap" style="height:60px;width:60px;;">
+            <ins class="nb-icon-bridge0 nb-icon-bridge-base" data-type="iconInvite"></ins>
+        </ins>
+    </ins><!-- end --><!-- target: invite -->
+    <ins class="nb-invite-wrap nb-invite-wrap-base nb-position-base nb-middle  " id="nb_invite_wrap"
+         style="width:400px;display:none;margin-left: -200px;margin-top: -88px;">
+        <ins class="nb-invite-body nb-invite-skin-0" style="height:175px;;">
+            <ins class="nb-invite-tool nb-invite-tool-base" id="nb_invite_tool" style=""></ins>
+            <ins class="nb-invite-text nb-invite-text-base">
+                <ins class="nb-invite-welcome nb-invite-welcome-base nb-show" id="nb_invite_welcome"><p
+                            style="color: #fff">欢迎来到本网站，请问有什么可以帮您？</p></ins>
+            </ins>
+            <ins class="nb-invite-btn-base nb-invte-btns-0">
+                <ins class="nb-invite-cancel nb-invite-cancel-base" id="nb_invite_cancel">稍后再说</ins>
+                <ins class="nb-invite-ok nb-invite-ok-base" id="nb_invite_ok">现在咨询</ins>
+            </ins>
+        </ins>
     </ins><!-- end --></ins>
 </body>
 </html>

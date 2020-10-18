@@ -23,6 +23,7 @@ func init() {
 
     beego.Router("/upload",&controllers.UploadFileController{})
 
+    beego.Router("/record",&controllers.UploadFileController{})
 
 
 
