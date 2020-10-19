@@ -14,6 +14,7 @@ import (
 	"time"
 )
 
+
 //处理文件上传
 type UploadFileController struct {
 	beego.Controller
@@ -22,6 +23,10 @@ type UploadFileController struct {
 /*
 *该post方法用于处理用户在客户端提交的文件
  */
+func (u *UploadFileController) Get() {
+	u.TplName = "home.html"
+}
+
 
 func (u *UploadFileController) Post() {
 
@@ -78,16 +83,17 @@ func (u *UploadFileController) Post() {
 		return
 	}
 
-
 	//把上传的文件作为记录保存到数据库中
 	//计算md5值
 	/**md5Hash := md5.New()
 	fileMd5Bytes,err :=ioutil.ReadAll(file)
 	md5Hash.Write(fileMd5Bytes)
 	*/
-	md5HashString,err :=utils.MD5HashReader(file)
+	saveFile,err :=os.Open(saveFilePath)
+	md5HashString,err :=utils.MD5HashReader(saveFile)
 	if err !=nil{
 		u.Ctx.WriteString("抱歉，电子数据认证失败")
+		return
 	}
 	//bytes := md5Hash.Sum(nil)
 
@@ -115,8 +121,11 @@ func (u *UploadFileController) Post() {
 		fmt.Println(err.Error())
 		return
 	}
+	fmt.Println(records)
 	u.Data["Records"] = records
+	u.Data["Phone"] = phone
 	u.TplName = "list_record.html"
+	//u.Ctx.WriteString("hello")
 
 }
 

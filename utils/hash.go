@@ -20,6 +20,9 @@ func Md5HashString(data string) string {
 func MD5HashReader(reader io.Reader) (string,error) {
 	md5Hash := md5.New()
 	readerBytes,err :=ioutil.ReadAll(reader)
+
+	//fmt.Println("读取到的文件",readerBytes)
+
 	if err !=nil{
 		return "",err
 	}
