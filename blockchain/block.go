@@ -1,6 +1,8 @@
 package blockchain
 
-import "time"
+import (
+	"time"
+)
 
 //定义区块结构体，用于表示区块
 type Block struct {
@@ -22,7 +24,9 @@ func NewBlock(height int64, prevHash []byte, data []byte) Block {
 		//Hash:      nil,
 		Version:   "0x01",
 	}
-	//block.Hash =
+
+	//调用hash计算，对区块进行sha256计算
+	//block.Hash = utils.SHA256HashBlock(block)
 	return block
 }
 //C:\Users\LENOVO\.GoLand2019.3\system

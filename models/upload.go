@@ -2,6 +2,7 @@ package models
 
 import (
 	"DataCertPlatform/dbmysql"
+	"DataCertPlatform/utils"
 )
 
 //上传文件的记录
@@ -13,6 +14,7 @@ type UploadRecord struct {
 	FileCert string
 	FileTitle string
 	CertTime int64
+	CertTimeString string
 
 }
 
@@ -49,8 +51,8 @@ func QueryRecordsByUserId(userId int) ([]UploadRecord,error) {
 	   //t :=time.Unix(record.CertTime,0)
 	   //Str:=t.Format("2006年01月02日 15:04:05")
 	   //fmt.Println(tStr)
-	   //tStr :=utils.TimeFormat(record.CertTime,"2003年01月02日 15:04:05")
-	   // record.CertTimeFormat = tStr
+	   tStr :=utils.TimeFormat(record.CertTime, utils.TIME_FORMAT_THERR)
+	   record.CertTimeString = tStr
 		records =append(records,record)
 	}
 	return records,nil

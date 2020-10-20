@@ -3,14 +3,9 @@ package controllers
 import (
 	"DataCertPlatform/models"
 	"DataCertPlatform/utils"
-	//"crypto/md5"
-	//"encoding/hex"
 	"fmt"
 	"github.com/astaxie/beego"
-	//"golang.org/x/tools/go/analysis/passes/cgocall/testdata/src/c"
-	//"io/ioutil"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -20,13 +15,11 @@ type UploadFileController struct {
 	beego.Controller
 }
 
-/*
-*该post方法用于处理用户在客户端提交的文件
- */
 func (u *UploadFileController) Get() {
 	u.TplName = "home.html"
 }
 
+//该post方法用于处理用户在客户端提交的文件
 
 func (u *UploadFileController) Post() {
 
@@ -35,15 +28,16 @@ func (u *UploadFileController) Post() {
 	title := u.Ctx.Request.PostFormValue("upload_title")//用户输入的标题
 	fmt.Println("电子数据认证标题",title)
 	//用户上传的文件
-	file, header, err := u.GetFile("yuhongwei")
+	file, header, err := u.GetFile("file")
 
 	if err != nil {//解析客户端提交的文件出现错误
+		fmt.Println(err.Error())
 		u.Ctx.WriteString("抱歉，文件解析失败，请重试！")
 		return
 	}
 
 	defer file.Close()//延迟执行invalid(无效的) memorey(无效的) or nil pointer dereference:空指针错误
-
+     
 	//调用工具函数保存文件
 	saveFilePath := "static/upload" + header.Filename
 	_,err = utils.SavaFile(saveFilePath,file)
@@ -68,7 +62,7 @@ func (u *UploadFileController) Post() {
 
 	//2.计算文件的SHA256值
 	fileHash,err :=utils.SHA256HashReader(file)
-	fmt.Println(err.Error())
+	//fmt.Println(err.Error())
 	fmt.Println(fileHash)
 	/**hash256:=sha256.New()
 	fileBytes,_ :=ioutil.ReadAll(file)
@@ -131,7 +125,7 @@ func (u *UploadFileController) Post() {
 
 
 //处理用户提交的文件
-func (u *UploadFileController) Post1(){
+/*func (u *UploadFileController) Post1(){
 	//1、解析用户上传的数据及文件内容
 	//用户上传的自定义的标题
 	title := u.Ctx.Request.PostFormValue("upload_title")//用户输入的标题
@@ -164,6 +158,8 @@ func (u *UploadFileController) Post1(){
 		return
 	}
 
+ */
+
 	//if fileType != " jpg" || fileType != "png" {
 	//	//文件类型不支持
 	//	u.Ctx.WriteString("抱歉，文件类型不符合, 请上传符合格式的文件")
@@ -171,7 +167,7 @@ func (u *UploadFileController) Post1(){
 	//}
 
 	//文件的大小 200kb
-	config := beego.AppConfig
+/*	config := beego.AppConfig
 	fileSize,err := config.Int64("file_size")
 
 	if header.Size / 1024 > fileSize {
@@ -187,7 +183,7 @@ func (u *UploadFileController) Post1(){
 	②：b文件所有者所在组的用户操作权限，读4 写2 执行1
 	③:其他用户的操作权限，读4 写2 执行1
 	*/
-	savaDir := "static/upload"
+	/*savaDir := "static/upload"
 	//打开文件①
 	_,err =os.Open(savaDir)
 	if err !=nil{
@@ -214,3 +210,5 @@ func (u *UploadFileController) Post1(){
 	fmt.Println("上传的文件:",file)
 	u.Ctx.WriteString("已获取到上传文件。")
 }
+
+	 */
