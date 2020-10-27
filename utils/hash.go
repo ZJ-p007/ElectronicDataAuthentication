@@ -43,7 +43,6 @@ func SHA256HashReader(reader io.Reader) (string,error) {
 	return hex.EncodeToString(hashBytes),nil
 }
 
-
 //对区块数据进行SHA256Hash计算
 //func SHA256HashBlock(block blockchain.Block) []byte {
 func SHA256HashBlock(bs []byte) []byte {

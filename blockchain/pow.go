@@ -8,7 +8,7 @@ import
 	"math/big"
 )
 
-const DIFFICULTY  = 22
+const DIFFICULTY  = 14
 
 //工作量证明算法结构体
 type ProofOfWork struct {

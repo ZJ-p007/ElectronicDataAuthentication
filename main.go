@@ -20,15 +20,23 @@ func main() {
 
 	fmt.Printf("block0的哈希:%x\n", block0.Hash)
 	fmt.Printf("bloc1的哈希:%x\n", block1.Hash)
-   fmt.Printf("block1的PrevHash:%x\n", block1.PrevHash)
+	fmt.Printf("block1的PrevHash:%x\n", block1.PrevHash)
 
 	//序列化
-   blockJson, _:= json.Marshal(block0)
-	fmt.Println("通过json序列化以后的block",string(blockJson))
+	blockJson, _ := json.Marshal(block0)
+	fmt.Println("通过json序列化以后的block", string(blockJson))
 
+	block0Bytes := block0.Serialize()
+	fmt.Println("创世区块通过gob序列化后:", block0Bytes)
+	deBlock0, err := blockchain.DSerialize(block0Bytes)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Println("反序列化后区块的的高度是:", deBlock0.Height)
+	fmt.Printf("反序列化后的区块的哈希:%x\n", deBlock0.Hash)
 
-
-	return
+	//return
 
 	//1.连接数据库
 	dbmysql.Connect()
