@@ -2,12 +2,10 @@ package main
 
 import (
 	"DataCertPlatform/blockchain"
-	"DataCertPlatform/dbmysql"
 	_ "DataCertPlatform/routers"
-	"fmt"
 	"github.com/astaxie/beego"
 )
-
+//https://github.com/ZJ-p007/ElectronicDataAuthentication.git
 func main() {
 	/*block0 := blockchain.CreateGenesisBlock() //创建创世区块
 	fmt.Println(block0)
@@ -38,14 +36,49 @@ func main() {
 		LastHash:gensis.Hash,
 		BoltDB:   db,
 	}*/
-	bc := blockchain.NewBlockChain()//封装
-	fmt.Printf("创世区块的哈希:%x\n",bc.LastHash)
-	//bc.AddData([]byte("用户要保存到区块中的数据"))
+/*	bc := blockchain.NewBlockChain()//封装
+	fmt.Printf("最新区块的哈希:%x\n",bc.LastHash)*/
+	//block1,err := bc.AddData([]byte("用户要保存到区块中的数据"))
+   /* if err != nil{
+   	   fmt.Println(err.Error())
+		return
+    }
+
+    fmt.Printf("区块高度:%d\n",block1.Height)
+    fmt.Printf("区块的哈希值:%d\n",block1.Hash)
+	fmt.Printf("前一个区块的哈希值:%x\n",block1.PrevHash)*/
+	/*block2,err := bc.QueryBlockRyHeigth(2)
+	if err != nil{
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Printf("区块的高度:%d\n",block2)
+	fmt.Println("区块中的数据是",string(block2.Data))
+
+	return*/
+	/*bc1 := blockchain.NewBlockChain()
+	fmt.Println(bc1)
+	bc1.AddData([]byte("x-x-x-x-x-x"))
+	blocks,err :=bc.QueryAllBlocks()
+	if err != nil{
+		fmt.Println(err.Error())
+		return
+	}
+	//block是一个切片
+	for _, block := range blocks{
+		fmt.Printf("序号:%d,区块高度:%d,区块hash:%x",block.Height)
+	}
 
 	return
+*/
+
+	//先准备一条区块链
+	blockchain.NewBlockChain()
+
+
 
 	//1.连接数据库
-	dbmysql.Connect()
+	//dbmysql.Connect()
 
 	//设置静态资源文件映射
 	beego.SetStaticPath("/js", "./static/js")

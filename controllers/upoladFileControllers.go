@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"DataCertPlatform/blockchain"
 	"DataCertPlatform/models"
 	"DataCertPlatform/utils"
 	"fmt"
@@ -70,6 +71,7 @@ func (u *UploadFileController) Post() {
 	hashBytes:=hash256.Sum(nil)
 	fmt.Println(hex.EncodeToString(hashBytes))
 	*/
+
 	//先查询用户id
 	user1,err := models.User{Phone:phone}.QueryUserIdByPhone()
 	if err != nil{
@@ -107,7 +109,12 @@ func (u *UploadFileController) Post() {
 		return
 	}
 
-	//上传
+	//将用户上传的文件的md5值和sha256值保存到区块链上，即上链
+    blockchain.CHAIN.AddData([]byte(fileHash))
+
+
+
+	//上传文件数据保存到数据库
 	records, err := models.QueryRecordsByUserId(user1.Id)
 	if err != nil{
 		fmt.Println("获取数据列表",err.Error())
