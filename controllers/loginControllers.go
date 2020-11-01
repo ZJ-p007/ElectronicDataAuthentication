@@ -35,6 +35,14 @@ func (l *LoginControllre) Post() {
 		l.Ctx.WriteString("用户登录失败，请重试!")
 		return
 	}
+
+/*	//判断用户是否实名认证
+	if{
+		l.TplName = "user_kyc.html"
+	}
+*/
+
+
 	//4.根据查询结果返回客户端相应的信息或者页面跳转
 	l.Data["Phone"] = u.Phone//动态数据设置
     l.TplName = "home.html"

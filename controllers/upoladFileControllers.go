@@ -73,7 +73,7 @@ func (u *UploadFileController) Post() {
 	*/
 
 	//先查询用户id
-	user1,err := models.User{Phone:phone}.QueryUserIdByPhone()
+	user1,err := models.User{Phone:phone}.QueryUserByPhone()
 	if err != nil{
 		u.Ctx.WriteString("抱歉，电子数据认证失败，请稍后再试！")
 		return
@@ -109,12 +109,23 @@ func (u *UploadFileController) Post() {
 		return
 	}
 
+
+
 	//将用户上传的文件的md5值和sha256值保存到区块链上，即上链
-    blockchain.CHAIN.AddData([]byte(fileHash))
+   // CHAIN.AddData([]byte(md5HashString)) //与web前端连接
+	block,err := blockchain.CHAIN.AddData([]byte(md5HashString))
+	if err != nil{
+		u.Ctx.WriteString("抱歉，数据上链错误"+ err.Error())
+		//fmt.Println(err.Error())
+		return
+	}
+	fmt.Println("恭喜,已经保存到区块链当中 ，区块的高度是:",block.Height)
 
 
 
-	//上传文件数据保存到数据库
+
+
+    //上传文件数据保存到数据库
 	records, err := models.QueryRecordsByUserId(user1.Id)
 	if err != nil{
 		fmt.Println("获取数据列表",err.Error())

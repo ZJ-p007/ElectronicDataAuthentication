@@ -6,23 +6,22 @@ import (
 )
 
 func init() {
-	//router:路由
-    beego.Router("/", &controllers.MainController{})
+	//登录界面点击注册账号的跳转
+	beego.Router("/register.html",&controllers.SkipControllers{})
 
-    //用户注册接口
-    beego.Router("/register",&controllers.RegisterController{})
-
-   //用户登录接口
-   beego.Router("/login",&controllers.LoginControllre{})
-
-   //请求直接登录的页面
-   beego.Router("/login.html",&controllers.LoginControllre{})
-
-    //登录界面点击注册账号的跳转
-    beego.Router("/register.html",&controllers.SkipControllers{})
-
-    beego.Router("/upload",&controllers.UploadFileController{})
-
-    beego.Router("/record",&controllers.UploadFileController{})
+	//router: 路由
+	beego.Router("/", &controllers.MainController{})
+	//用户注册接口
+	beego.Router("/register", &controllers.RegisterController{})
+	//用户登录的接口
+	beego.Router("/login", &controllers.LoginControllre{})
+	//请求直接登录的页面
+	beego.Router("/login.html", &controllers.LoginControllre{})
+	//用户上传文件的功能
+	beego.Router("/upload", &controllers.UploadFileController{})
+	//查看认证数据证书页面
+	beego.Router("/cert_detail.html", &controllers.CertDetailController{})
+	//用户实名认证请求
+	//beego.Router("/user_kyc", &controllers.{})
 
 }

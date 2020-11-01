@@ -193,3 +193,41 @@ func (bc BlockChain) AddData(data []byte) (Block, error) {
 	//1.返回值语句包含newBlock,err,其中err包含信息
 	return newBlock, err
 }
+
+//该方法用于根据用户输入的认证号查询对应的区块信息
+func (bc BlockChain) QueryBlockByCertUd(cert_id string) (*Block, error) {
+	db := bc.BoltDB
+	var err error
+	var block *Block
+	db.View(func(tx *bolt.Tx) error {
+		bucket := tx.Bucket([]byte(BUCKET_NAME))
+		if bucket == nil { //判断桶是否存在
+			err = errors.New("查询链上数据发生错误，请重试")
+			return err
+		}
+		eachHash := bc.LastHash
+		eachBig := new(big.Int)
+		zeroBig := big.NewInt(0)
+		for {
+			eachBlockBytes := bucket.Get(eachHash)
+			//反序列化
+			eachBlock, err := DSerialize(eachBlockBytes)
+			if err != nil {
+				break
+			}
+			//将遍历到的区块中的数据根据用户提供的认证号进行比较
+			if string(eachBlock.Data) == cert_id { //找到区块
+				block = eachBlock
+				break
+			}
+			eachBig.SetBytes(eachBlock.PrevHash)
+			if eachBig.Cmp(zeroBig) == 0{//创世区块，停止遍历
+				break
+			}
+			eachHash = eachBlock.PrevHash
+		}
+
+		return nil
+	})
+     return block,err
+}

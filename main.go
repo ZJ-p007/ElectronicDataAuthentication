@@ -4,6 +4,7 @@ import (
 	"DataCertPlatform/blockchain"
 	_ "DataCertPlatform/routers"
 	"github.com/astaxie/beego"
+
 )
 //https://github.com/ZJ-p007/ElectronicDataAuthentication.git
 func main() {
@@ -74,7 +75,6 @@ func main() {
 
 	//先准备一条区块链
 	blockchain.NewBlockChain()
-
 
 
 	//1.连接数据库
