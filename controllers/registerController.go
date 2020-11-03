@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"DataCertPlatform/models"
 	"github.com/astaxie/beego"
+	"DataCertPlatform/models"
 )
 
 type RegisterController struct {
@@ -27,10 +27,6 @@ func (r *RegisterController) Post(){
 		r.Ctx.WriteString("抱歉，用户注册失败，请重试!")
 		return
 	}
+	 r.TplName =  "login.html"
 
-	//3、将处理结果返回给客户端浏览器
-	//3.1 如果成功，跳转登录页面
-	//tpl: template
-	r.TplName =  "login.html"
-	//3.2 如果失败，则提示错误信息
 }
