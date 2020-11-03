@@ -1,8 +1,8 @@
 package main
 
 import (
+	"DataCertPlatform/db_mysql"
 	"DataCertProject/blockchain"
-	"DataCertProject/db_mysql"
 	_ "DataCertProject/routers"
 	"github.com/astaxie/beego"
 )
