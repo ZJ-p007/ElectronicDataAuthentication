@@ -12,6 +12,8 @@ func init() {
 	beego.Router("/register", &controllers.RegisterController{})
 	//用户登录的接口
 	beego.Router("/login", &controllers.LoginController{})
+	//处理用户验证码登录
+	beego.Router("/login.sms.html",&controllers.LoginSmsController{})
 	//请求直接登录的页面
 	beego.Router("/login.html", &controllers.LoginController{})
 	//用户上传文件的功能

@@ -21,5 +21,5 @@ func main() {
 	beego.SetStaticPath("/img", "./static/img")
 
 	beego.Run() //阻塞g
-	//http.ListenAndServe(":8080")
+
 }
